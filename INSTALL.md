@@ -1,6 +1,8 @@
 # DS 对话导入工具：安装与配置
 
-[返回 README](README.md)
+[返回新手使用指南](README.md) · [观看视频教程](https://www.bilibili.com/video/BV1Mjsv61ERK/) · [下载插件 ZIP](https://github.com/gityuanbao/ds-chat-importer/archive/refs/heads/master.zip)
+
+第一次使用，建议先按 [README 的四步指南](README.md#跟着做第一次导入) 完成一次导入。本页供需要查看安装细节、配置目录或使用 Agent 工具的读者参考。
 
 ## 运行环境
 
@@ -11,7 +13,7 @@
 
 ## 从文件夹安装
 
-1. 在 [仓库首页](https://github.com/gityuanbao/ds-chat-importer) 点击 **Code → Download ZIP** 并解压，或用 Git 克隆：
+1. [下载插件 ZIP](https://github.com/gityuanbao/ds-chat-importer/archive/refs/heads/master.zip) 并解压，也可以在 [仓库首页](https://github.com/gityuanbao/ds-chat-importer) 点击 **Code → Download ZIP**。熟悉 Git 的读者可用下面的命令克隆：
 
    ```bash
    git clone https://github.com/gityuanbao/ds-chat-importer.git
@@ -79,6 +81,18 @@ npm pack --ignore-scripts
 
 ## Agent 工具参数
 
+先在插件面板里选好档案，再让 DSH 助手帮忙，例如：
+
+```text
+先列出标题含“旅行计划”的历史对话，确认后把指定的那一条导入为独立会话。
+```
+
+| 工具 | 用途 |
+| --- | --- |
+| `ds_archive_list` | 列出或搜索导出包中的会话 |
+| `ds_archive_import` | 导入指定会话，默认创建独立会话 |
+| `ds_archive_diag` | 查看宿主服务、会话列表与读回结果，辅助排查 |
+
 `ds_archive_import` 的参数如下：
 
 | 参数 | 作用与默认行为 |
@@ -93,6 +107,8 @@ npm pack --ignore-scripts
 | `writeFile` | 仅上下文模式：默认 `true`；内容发生压缩或清理后的消息数大于 12 时，尝试保存 Markdown |
 
 上下文模式遇到长对话时，按“开头内容 + 中间提纲 + 尾部正文”组织内容。满足落盘条件时，插件会尝试在解析后的档案目录上一级创建 `.ds-archive-imports/`，并返回 `fullPath`。这个文件是经过格式转换的文本记录，不能替代原始导出包。
+
+独立会话模式不按上述字符预算压缩历史消息，但后续模型对话仍受宿主的上下文管理与模型容量限制。需要保留模板失败回复和重复提问时，可以让助手调用导入工具并设置 `keepFailures=true`；这仍不等于恢复图片、附件或所有回答分支。
 
 ## 数据目录
 
@@ -125,3 +141,19 @@ node --check client.js
 ```
 
 这些命令只检查 JavaScript 语法，不会连接 DSH 或导入真实聊天记录。
+
+## 项目结构
+
+```text
+ds-chat-importer/
+├── index.js          # Host：档案解析、会话导入、工具与同源接口
+├── client.js         # Client：侧边栏面板和批量导入交互
+├── cordis.patch.yml  # DSH 插件装配声明
+├── package.json      # 包信息、导出与 DSH bundle 配置
+├── locale/           # 中文、英文插件元信息
+├── icon.svg          # 插件图标
+├── INSTALL.md        # 安装、配置和打包说明
+└── README.md         # 新手使用指南与视频教程
+```
+
+仓库提供可直接加载的 JavaScript，无需构建前端。Host 侧负责档案解析和导入，Client 面板通过同源接口 `POST /_deepseek-archive/api` 发起操作，面板导入与 Agent 的独立会话导入共用导入逻辑。
