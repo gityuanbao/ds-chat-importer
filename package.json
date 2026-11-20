@@ -1,0 +1,43 @@
+{
+  "name": "@local/dsh-deepseek-archive",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "DS 对话导入工具：将 DeepSeek 网页端导出的聊天记录导入 DeepSeek Harness，支持搜索、批量导入和独立会话接续。",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gityuanbao/ds-chat-importer.git"
+  },
+  "homepage": "https://github.com/gityuanbao/ds-chat-importer#readme",
+  "bugs": {
+    "url": "https://github.com/gityuanbao/ds-chat-importer/issues"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "README.md",
+    "INSTALL.md"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ]
+    }
+  }
+}

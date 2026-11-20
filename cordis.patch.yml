@@ -1,0 +1,4 @@
+- insert:
+    - id: deepseek-archive
+      name: '@local/dsh-deepseek-archive'
+      config: {}

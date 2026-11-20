@@ -1,0 +1,14 @@
+node_modules/
+*.log
+*.tgz
+*.zip
+.DS_Store
+Thumbs.db
+.env
+.env.*
+.npmrc
+.dsh/
+.ds-archive-imports/
+deepseek_data-*/
+chat_sessions/
+chat_session_index.json

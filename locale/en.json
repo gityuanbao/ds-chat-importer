@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "DS Chat Importer",
+    "description": "Import exported DeepSeek web chats as standalone DSH sessions that appear in the sidebar and can be continued, or inject one into the current conversation."
+  }
+}
